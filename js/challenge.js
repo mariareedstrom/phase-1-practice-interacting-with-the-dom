@@ -29,16 +29,32 @@ minusButton.addEventListener("click", minus);
 
 // heart liker function: add li with currentNumber to ul
 function heartClicked() {
+  // get the number
   let currentNumber = parseInt(counterElement.innerText);
+  // get the likes list
   let likesList = document.querySelector(".likes");
-  let likesListItem = document.createElement("li");
-  // shoul display number of likes ...`${currentNumber} has been liked ${num} times!`
-  likesListItem.innerText = `${currentNumber} has been liked!`;
 
-  likesList.appendChild(likesListItem);
+  const likedItem = likesList.querySelector(
+    `li[data-count="${currentNumber}"]`
+  );
 
-  // if(li item already has a like) ...
-  // hidden counter for number of likes! if more than 1 display number of times
+  if (likedItem) {
+    // shoul display number of likes ...`${currentNumber} has been liked ${num} times!`
+    // calculate new count
+    const likes = parseInt(likedItem.dataset.likes);
+
+    likedItem.dataset.likes = likes + 1;
+    // update text
+    likedItem.innerText = `${currentNumber} has been liked ${likedItem.dataset.likes} times!`;
+  } else {
+    // create new like
+    let likesListItem = document.createElement("li");
+
+    likesListItem.innerText = `${currentNumber} has been liked!`;
+    likesListItem.dataset.count = currentNumber;
+    likesListItem.dataset.likes = 1;
+    likesList.appendChild(likesListItem);
+  }
 }
 
 // like a number with heart button:add eventListener to heart button
